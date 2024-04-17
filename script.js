@@ -529,32 +529,6 @@ console.log(h1.parentElement.children);
 */
 
 /*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
-
-/*
 ///////////////////////////////////////
 // Sticky navigation
 const initialCoords = section1.getBoundingClientRect();
@@ -566,7 +540,9 @@ window.addEventListener('scroll', function () {
   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
 });
+*/
 
+/*
 ///////////////////////////////////////
 // Sticky navigation: Intersection Observer API
 
@@ -583,8 +559,9 @@ const obsOptions = {
 
 const observer = new IntersectionObserver(obsCallback, obsOptions);
 observer.observe(section1);
+*/
 
-
+/*
 ///////////////////////////////////////
 // Lifecycle DOM Events
 document.addEventListener('DOMContentLoaded', function (e) {
