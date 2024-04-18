@@ -221,10 +221,10 @@ const sectionObserver = new IntersectionObserver(revealSection, {
   threshold: 0.15,
 });
 
-// allSections.forEach(section => {
-//   sectionObserver.observe(section);
-//   section.classList.add('section--hidden');
-// });
+allSections.forEach(section => {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
 
 // Lazy loading images
 const imgTargets = document.querySelectorAll('img[data-src]');
