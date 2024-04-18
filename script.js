@@ -221,10 +221,10 @@ const sectionObserver = new IntersectionObserver(revealSection, {
   threshold: 0.15,
 });
 
-allSections.forEach(section => {
-  sectionObserver.observe(section);
-  section.classList.add('section--hidden');
-});
+// allSections.forEach(section => {
+//   sectionObserver.observe(section);
+//   section.classList.add('section--hidden');
+// });
 
 // Lazy loading images
 const imgTargets = document.querySelectorAll('img[data-src]');
@@ -265,7 +265,15 @@ const slider = function () {
   let curSlide = 0;
   const maxSlide = slides.length;
 
+  let slideInterval;
+  const slideChangeDuration = 4000;
+
   // Functions
+
+  const resetInterval = function () {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(nexSlide, slideChangeDuration, 1);
+  };
 
   const creatDots = function () {
     slides.forEach(function (_, i) {
@@ -286,29 +294,28 @@ const slider = function () {
       .classList.add('dots__dot--active');
   };
 
-  const goToSlide = function (slideNum, dotNum) {
+  const goToSlide = function (slideNum, isIntervalCalling) {
     slides.forEach(
       (slide, i) =>
         (slide.style.transform = `translateX(${100 * (i - slideNum)}%)`)
     );
-  };
 
-  const init = function () {
-    creatDots();
-    goToSlide(0);
-    activateDot(0);
+    if (isIntervalCalling === 1) return;
+
+    console.log('not called by interval', isIntervalCalling);
+    resetInterval();
   };
-  init();
 
   // Next slide
-  const nexSlide = function () {
+  const nexSlide = function (isIntervalCalling) {
+    console.log(curSlide);
     if (curSlide === maxSlide - 1) {
       curSlide = 0;
     } else {
       curSlide++;
     }
 
-    goToSlide(curSlide);
+    goToSlide(curSlide, isIntervalCalling);
     activateDot(curSlide);
   };
 
@@ -322,6 +329,15 @@ const slider = function () {
     activateDot(curSlide);
   };
 
+  const init = function () {
+    creatDots();
+    goToSlide(0, 1);
+    activateDot(0);
+
+    slideInterval = setInterval(nexSlide, slideChangeDuration, 1); // activate auto slide
+  };
+  init();
+
   // Event handlers
   btnRight.addEventListener('click', nexSlide);
   btnLeft.addEventListener('click', prevSlide);
@@ -334,6 +350,7 @@ const slider = function () {
   dotContainer.addEventListener('click', function (e) {
     if (e.target.classList.contains('dots__dot')) {
       const { slide } = e.target.dataset;
+      curSlide = slide;
 
       goToSlide(slide);
       activateDot(slide);
